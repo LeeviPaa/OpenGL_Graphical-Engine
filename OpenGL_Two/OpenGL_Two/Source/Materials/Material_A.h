@@ -45,21 +45,20 @@ public:
 
 	void Initialize() override {
 		shaderOne = Shader(
-			"G:/Projects/OpenGL/MinecraftClone/OpenGL_Two/OpenGL_Two/Source/Shaders/shader_Lit.vs",
-			"G:/Projects/OpenGL/MinecraftClone/OpenGL_Two/OpenGL_Two/Source/Shaders/shader_Lit.fs");
+			"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Shaders/shader_Lit.vs",
+			"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Shaders/shader_Lit.fs");
 		shaderOne.use();
-
 		//create the texture
-		if (!LoadTexture(&diffuseMap, true, true, "G:/Projects/OpenGL/MinecraftClone/OpenGL_Two/OpenGL_Two/Source/Textures/container2.png"))
+		if (!LoadTexture(&diffuseMap, true, true, "G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Textures/container2.png"))
 		{
 			Debug::Log("Failed to load diffuse");
 		}
 
-		if(!LoadTexture(&specularMap, true, true, "G:/Projects/OpenGL/MinecraftClone/OpenGL_Two/OpenGL_Two/Source/Textures/container2_specular.png"))
+		if(!LoadTexture(&specularMap, true, true, "G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Textures/container2_specular.png"))
 		{
 			Debug::Log("Failed to load specular");
 		}
-		if(!LoadTexture(&emissionMap, false, true, "G:/Projects/OpenGL/MinecraftClone/OpenGL_Two/OpenGL_Two/Source/Textures/matrix.jpg"))
+		if(!LoadTexture(&emissionMap, false, true, "G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Textures/matrix.jpg"))
 		{
 			Debug::Log("Failed to load emission");
 		}

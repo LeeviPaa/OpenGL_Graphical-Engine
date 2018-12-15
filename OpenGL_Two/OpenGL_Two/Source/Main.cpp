@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "Debug.h"
 #include <iostream>
+#include "FileTools.h"
 
 //Input inputObject;
 
@@ -19,8 +20,12 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-int main(void)
+std::string FileTools::programPath = "";
+int main(int argc, char* argv[])
 {
+	//set the root folder of the program
+	FileTools::SetPath(argv[0]);
+
 	GLFWwindow* window;
 
 	/* Initialize the library */

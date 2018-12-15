@@ -139,6 +139,7 @@
     <ClCompile Include="Source\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\FileTools.h" />
     <ClInclude Include="Source\Lighting\Light.h" />
     <ClInclude Include="Source\Materials\Material_A.h" />
     <ClInclude Include="Source\Materials\Material.h" />

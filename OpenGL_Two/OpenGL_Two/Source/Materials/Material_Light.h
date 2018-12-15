@@ -13,8 +13,8 @@ public:
 
 	void Initialize() override {
 		shaderOne = Shader(
-			"G:/Projects/OpenGL/MinecraftClone/OpenGL_Two/OpenGL_Two/Source/Shaders/shader_Lit.vs",
-			"G:/Projects/OpenGL/MinecraftClone/OpenGL_Two/OpenGL_Two/Source/Shaders/shader_Light.fs");
+			"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Shaders/shader_Lit.vs",
+			"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Shaders/shader_Light.fs");
 		shaderOne.use();
 
 		//we NEED to set this before changing shader properties below!!!
