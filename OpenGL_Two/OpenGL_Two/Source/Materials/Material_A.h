@@ -16,6 +16,7 @@ public:
 		glEnable(GL_DEPTH_TEST);
 	}
 
+
 	void InitDraw(glm::mat4 view, glm::mat4 projection, glm::mat4 model, Camera* drawCam, std::vector<Light*> lights) override {
 		shaderOne.use();
 
@@ -38,7 +39,8 @@ public:
 			else if (name == "texture_normal") number = std::to_string(normalNr++);
 			else if (name == "texture_height") number = std::to_string(heightNr++);
 
-			shaderOne.setFloat((name + number).c_str(), i);
+			//This NEEDS to be setInt NOT setFloat!!!
+			shaderOne.setInt((name + number).c_str(), i);
 			glBindTexture(GL_TEXTURE_2D, textures[i].id);
 		}
 
