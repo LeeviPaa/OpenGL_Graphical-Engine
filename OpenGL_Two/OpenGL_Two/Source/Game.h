@@ -7,7 +7,6 @@
 #include "Materials/Material.h"
 #include "Lighting/Light.h"
 #include "Materials/Material_A.h"
-#include "Materials/Material_B.h"
 #include "Materials/Material_Light.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -28,7 +27,10 @@ private:
 	Material_A materialLit;
 	Material_Light materialLight;
 	Cube cubes;
+
 	Model* nanosuit;
+	//nanosuit has its own materials inside for now
+	//TODO: create a renderer object that has ref to both model/mesh and the materials
 
 	glm::vec3 pointLightPositions[4] = {
 		glm::vec3(0.7f,  0.2f,  2.0f),

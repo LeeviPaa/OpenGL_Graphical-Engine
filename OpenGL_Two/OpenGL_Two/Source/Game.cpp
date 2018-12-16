@@ -63,6 +63,12 @@ Game::Game(GLFWwindow* window)
 	cubes.Initialize();
 	//load one material
 	materialLit.Initialize();
+	materialLit.setMaterialTexture(
+		"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Textures/container2.png",
+		aiTextureType::aiTextureType_DIFFUSE);
+	materialLit.setMaterialTexture(
+		"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Textures/container2_specular.png",
+		aiTextureType::aiTextureType_SPECULAR);
 
 	materialLight.Initialize();
 
@@ -111,6 +117,7 @@ void Game::Update()
 		1.3f + (sin(currentFrame + glm::radians(180.0f)) / 2.0f),
 		1.3f + (sin(currentFrame + glm::radians(90.0f)) / 2.0f)
 	);
+
 	materialLight.lightColor = color;
 	for (Light* l : sceneLights)
 	{
@@ -118,7 +125,7 @@ void Game::Update()
 			l->diffuse = color * 0.3f;
 	}
 	
-	//LIGHTS!!
+	//render the light objects
 	for (int i = 0; i < 4; i++)
 	{
 		glm::mat4 trans = glm::mat4(1.0f);
@@ -131,16 +138,17 @@ void Game::Update()
 	glm::mat4 transform = glm::mat4(1.0f);
 	transform = glm::translate(transform, glm::vec3(0.0f, -2.0f, -2.0f));
 	transform = glm::scale(transform, glm::vec3(0.25f));
-	mainRender->Render(renderWindow, deltaTime, mainCamera, nanosuit, &materialLit, transform, sceneLights);
+	//for now the model class uses the materials provided within, so no need to provide a material
+	mainRender->Render(renderWindow, deltaTime, mainCamera, nanosuit, nullptr, transform, sceneLights);
 
 	//this needs to be optimized so that similar objects are rendered in the same draw call
-	/*for (unsigned int i = 0; i < 10; i++)
+	for (unsigned int i = 0; i < 10; i++)
 	{
 		glm::mat4 transform = glm::mat4(1.0f);
 		transform = glm::translate(transform, cubePositions[i]);
 
 		mainRender->Render(renderWindow, deltaTime, mainCamera, &cubes, &materialLit, transform, sceneLights);
-	}*/
+	}
 
 	mainRender->FinishRendering(renderWindow);
 }
@@ -151,6 +159,7 @@ Game::~Game()
 	{
 		delete pointLights[i];
 	}
+	delete(nanosuit);
 	delete(sceneLight);
 	delete(mainCamera);
 	delete(mainRender);

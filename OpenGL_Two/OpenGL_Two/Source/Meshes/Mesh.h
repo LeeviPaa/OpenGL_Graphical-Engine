@@ -2,6 +2,7 @@
 #include "../Drawable.h"
 #include <glm/glm.hpp>
 #include <string>
+#include "../Materials/Material.h"
 
 struct Vertex {
 	glm::vec3 Position;
@@ -14,7 +15,6 @@ struct Vertex {
 class Mesh : public Drawable
 {
 private:
-
 	unsigned int VBO, EBO;
 	void SetupMesh();
 
@@ -23,9 +23,8 @@ public:
 
 	std::vector<Vertex>	vertices;
 	std::vector<unsigned int> indices;
-	std::vector<Texture> textures;
 
-	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
+	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
 	void Draw(class Camera* mainCam, Material* mat, glm::mat4 objectTransform, std::vector<Light*> lights) override;
 };
 

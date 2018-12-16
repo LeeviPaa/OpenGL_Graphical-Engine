@@ -147,7 +147,6 @@
     <ClInclude Include="Source\Lighting\Light.h" />
     <ClInclude Include="Source\Materials\Material_A.h" />
     <ClInclude Include="Source\Materials\Material.h" />
-    <ClInclude Include="Source\Materials\Material_B.h" />
     <ClInclude Include="Source\Materials\Material_Light.h" />
     <ClInclude Include="Source\Meshes\Cube.h" />
     <ClInclude Include="Source\Drawable.h" />

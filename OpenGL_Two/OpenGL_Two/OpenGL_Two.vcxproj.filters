@@ -95,9 +95,6 @@
     <ClInclude Include="Source\Materials\Material_A.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Materials\Material_B.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Lighting\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -18,11 +18,17 @@ void Model::loadModel(std::string path)
 
 void Model::processNode(aiNode * node, const aiScene * scene)
 {
-	//process all node meshes
+	//process all node meshes & materials
+
+	//TODO: store the provided materials in a separate renderer object
+	//TODO: Renderer object has reference to the mesh/model and the specified materials
+	//TODO: this way we only have to create one instance of each mesh/model/material and just reference them as needed
+
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
 		meshes.push_back(processMesh(mesh, scene));
+		materials.push_back(processMaterial(mesh, scene));
 	}
 	//process all the node's children
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
@@ -35,7 +41,6 @@ Mesh Model::processMesh(aiMesh * mesh, const aiScene * scene)
 {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
-	std::vector<Texture> textures;
 	
 	//vertices
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
@@ -92,7 +97,14 @@ Mesh Model::processMesh(aiMesh * mesh, const aiScene * scene)
 		}
 	}
 
+	return Mesh(vertices, indices);
+}
+
+Material_A Model::processMaterial(aiMesh * mesh, const aiScene * scene)
+{
 	//material
+	std::vector<Texture> textures;
+	Material_A m;
 
 	aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
@@ -102,14 +114,17 @@ Mesh Model::processMesh(aiMesh * mesh, const aiScene * scene)
 	std::vector <Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 	textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 
-	// 3. normal maps
-	std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
+	std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_NORMALS, "texture_normal");
 	textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-	// 4. height maps
-	std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
+
+	std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_height");
 	textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
-	return Mesh(vertices, indices, textures);
+	//we use default lit material with default shaders
+	m.SetTextures(textures);
+	m.Initialize();
+
+	return m;
 }
 
 std::vector<Texture> Model::loadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName)
@@ -188,6 +203,8 @@ void Model::Draw(Camera * mainCam, Material * mat, glm::mat4 objectTransform, st
 {
 	for (unsigned int i = 0; i < meshes.size(); i++)
 	{
-		meshes[i].Draw(mainCam, mat, objectTransform, lights);
+		//here despite having a material provided for us, we ignore it and use the internal material for now
+		//TODO: separate the materials further from the meshes and models
+		meshes[i].Draw(mainCam, &materials[i], objectTransform, lights);
 	}
 }

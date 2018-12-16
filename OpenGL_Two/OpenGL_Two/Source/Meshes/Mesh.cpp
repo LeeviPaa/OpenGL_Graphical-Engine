@@ -38,11 +38,10 @@ void Mesh::SetupMesh()
 	glBindVertexArray(0);
 }
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices)
 {
 	this->vertices = vertices;
 	this->indices = indices;
-	this->textures = textures;
 
 	SetupMesh();
 }
@@ -59,31 +58,10 @@ void Mesh::Draw(Camera * mainCam, Material * mat, glm::mat4 objectTransform, std
 	//"material, get ready to be drawn!"
 	mat->InitDraw(view, proj, objectTransform, mainCam, lights);
 
-	//MOVE THIS TO MATERIAL!
-	#pragma region Multi texture setup
-	unsigned int diffuseNr = 1;
-	unsigned int specularNr = 1;
-	
-	for (unsigned int i = 0; i < textures.size(); i++)
-	{
-		glActiveTexture(GL_TEXTURE0 + i); //activate the proper tex unit before binding
-
-		std::string number;
-		std::string name = textures[i].type;
-
-		if (name == "texture_diffuse") number = std::to_string(diffuseNr++);
-		else if (name == "texture_Specular") number = std::to_string(specularNr++);
-
-		mat->shaderOne.setFloat((name + number).c_str(), i);
-		glBindTexture(GL_TEXTURE_2D, textures[i].id);
-	}
-	#pragma endregion
-
 	//draw the mesh
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
-
-	glActiveTexture(GL_TEXTURE0);
+	//glActiveTexture(GL_TEXTURE0);
 }

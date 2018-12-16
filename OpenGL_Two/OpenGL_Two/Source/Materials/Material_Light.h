@@ -35,6 +35,7 @@ public:
 		shaderOne.setMat4("model", model);
 
 	}
-	Material_Light() {};
+	Material_Light(){}
+	Material_Light(const Material_Light& mat) : Material(mat) {}
 };
 
