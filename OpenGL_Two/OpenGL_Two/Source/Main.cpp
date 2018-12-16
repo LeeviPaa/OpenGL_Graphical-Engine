@@ -8,7 +8,10 @@
 #include <iostream>
 #include "FileTools.h"
 
-//Input inputObject;
+//REMOVE THESE, USED TO CHECK IF THIS SHIT COMPILES WITH THEM
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 void error_callback(int error, const char* description)
 {

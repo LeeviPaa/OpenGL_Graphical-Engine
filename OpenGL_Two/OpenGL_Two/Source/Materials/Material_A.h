@@ -64,12 +64,12 @@ public:
 		}
 		
 
-		//we NEED to set this before changing shader properties below!!!
+		/*//we NEED to set this before changing shader properties below!!!
 		shaderOne.use();
 		//Set the shader properties
 		shaderOne.setInt("material.diffuse", 0);
 		shaderOne.setInt("material.specular", 1);
-		shaderOne.setInt("material.emission", 2);
+		shaderOne.setInt("material.emission", 2);*/
 
 		//enable depth testing
 		glEnable(GL_DEPTH_TEST);
@@ -79,11 +79,13 @@ public:
 
 		float time = glfwGetTime();
 
-		glActiveTexture(GL_TEXTURE0);
+		/*glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, diffuseMap);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, specularMap);
-		/*glActiveTexture(GL_TEXTURE2);
+		shaderOne.setInt("texture_diffuse1", 0);
+		shaderOne.setInt("texture_specular1", 1);
+		glActiveTexture(GL_TEXTURE2);
 		glBindTexture(GL_TEXTURE_2D, emissionMap);*/
 
 		//define the ambient somehow
@@ -122,9 +124,6 @@ public:
 		}
 		shaderOne.setInt("pointLightCount", pointLights);
 		
-		shaderOne.setVec3("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
-		shaderOne.setVec3("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
-		shaderOne.setVec3("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
 		shaderOne.setFloat("material.shininess", 32.0f);
 
 		/*

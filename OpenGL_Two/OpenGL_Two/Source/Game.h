@@ -14,6 +14,7 @@
 #include <vector>
 #include <glm/glm.hpp> 
 #include <glm/ext.hpp> 
+#include "Meshes/Model.h"
 
 class Game
 {
@@ -25,9 +26,9 @@ private:
 	float lastFrame = 0.0f;
 
 	Material_A materialLit;
-	//Material_B materialTwo;
 	Material_Light materialLight;
 	Cube cubes;
+	Model* nanosuit;
 
 	glm::vec3 pointLightPositions[4] = {
 		glm::vec3(0.7f,  0.2f,  2.0f),

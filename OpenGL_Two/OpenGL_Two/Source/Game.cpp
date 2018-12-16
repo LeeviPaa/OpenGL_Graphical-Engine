@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Renderer.h"
+#include <iostream>
 
 bool gate = true;
 static void input_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -84,6 +85,8 @@ Game::Game(GLFWwindow* window)
 
 		sceneLights.push_back(pointLights[i]);
 	}
+
+	nanosuit = new Model("G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Models/Nanosuit/nanosuit.obj");
 }
 
 void Game::Update()
@@ -111,7 +114,8 @@ void Game::Update()
 	materialLight.lightColor = color;
 	for (Light* l : sceneLights)
 	{
-		l->specular = color * 0.3f;
+		if(l->type == LightType::Point)
+			l->diffuse = color * 0.3f;
 	}
 	
 	//LIGHTS!!
@@ -124,14 +128,19 @@ void Game::Update()
 		mainRender->Render(renderWindow, deltaTime, mainCamera, sceneLight, &materialLight, trans, sceneLights);
 	}
 
+	glm::mat4 transform = glm::mat4(1.0f);
+	transform = glm::translate(transform, glm::vec3(0.0f, -2.0f, -2.0f));
+	transform = glm::scale(transform, glm::vec3(0.25f));
+	mainRender->Render(renderWindow, deltaTime, mainCamera, nanosuit, &materialLit, transform, sceneLights);
+
 	//this needs to be optimized so that similar objects are rendered in the same draw call
-	for (unsigned int i = 0; i < 10; i++)
+	/*for (unsigned int i = 0; i < 10; i++)
 	{
 		glm::mat4 transform = glm::mat4(1.0f);
 		transform = glm::translate(transform, cubePositions[i]);
 
 		mainRender->Render(renderWindow, deltaTime, mainCamera, &cubes, &materialLit, transform, sceneLights);
-	}
+	}*/
 
 	mainRender->FinishRendering(renderWindow);
 }

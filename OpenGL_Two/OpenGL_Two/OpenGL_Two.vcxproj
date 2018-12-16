@@ -85,7 +85,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc140-mt.lib;opengl32.lib;glfw3.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -108,7 +108,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc140-mt.lib;opengl32.lib;glfw3.lib;user32.lib;gdi32.lib;shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -126,6 +126,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Meshes\Model.cpp" />
+    <ClCompile Include="Source\Meshes\Mesh.cpp" />
     <ClCompile Include="Source\Lighting\Light.cpp" />
     <ClCompile Include="Source\Meshes\Cube.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
@@ -139,6 +141,8 @@
     <ClCompile Include="Source\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Meshes\Model.h" />
+    <ClInclude Include="Source\Meshes\Mesh.h" />
     <ClInclude Include="Source\FileTools.h" />
     <ClInclude Include="Source\Lighting\Light.h" />
     <ClInclude Include="Source\Materials\Material_A.h" />
@@ -157,6 +161,8 @@
     <ClInclude Include="Source\Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Source\Models\Nanosuit\nanosuit.blend" />
+    <None Include="Source\Models\Nanosuit\nanosuit.mtl" />
     <None Include="Source\Shaders\shader_A.fs" />
     <None Include="Source\Shaders\shader_A.vs" />
     <None Include="Source\Shaders\shader_Light.fs" />
@@ -164,12 +170,32 @@
     <None Include="Source\Shaders\shader_Lit.vs" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Source\Models\Nanosuit\arm_dif.png" />
+    <Image Include="Source\Models\Nanosuit\arm_showroom_ddn.png" />
+    <Image Include="Source\Models\Nanosuit\arm_showroom_spec.png" />
+    <Image Include="Source\Models\Nanosuit\body_dif.png" />
+    <Image Include="Source\Models\Nanosuit\body_showroom_ddn.png" />
+    <Image Include="Source\Models\Nanosuit\body_showroom_spec.png" />
+    <Image Include="Source\Models\Nanosuit\glass_ddn.png" />
+    <Image Include="Source\Models\Nanosuit\glass_dif.png" />
+    <Image Include="Source\Models\Nanosuit\hand_dif.png" />
+    <Image Include="Source\Models\Nanosuit\hand_showroom_ddn.png" />
+    <Image Include="Source\Models\Nanosuit\hand_showroom_spec.png" />
+    <Image Include="Source\Models\Nanosuit\helmet_diff.png" />
+    <Image Include="Source\Models\Nanosuit\helmet_showroom_ddn.png" />
+    <Image Include="Source\Models\Nanosuit\helmet_showroom_spec.png" />
+    <Image Include="Source\Models\Nanosuit\leg_dif.png" />
+    <Image Include="Source\Models\Nanosuit\leg_showroom_ddn.png" />
+    <Image Include="Source\Models\Nanosuit\leg_showroom_spec.png" />
     <Image Include="Source\Textures\awesomeface.png" />
     <Image Include="Source\Textures\container.jpg" />
     <Image Include="Source\Textures\container2.png" />
     <Image Include="Source\Textures\container2_specular.png" />
     <Image Include="Source\Textures\matrix.jpg" />
     <Image Include="Source\Textures\wall.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Source\Models\Nanosuit\LICENSE.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

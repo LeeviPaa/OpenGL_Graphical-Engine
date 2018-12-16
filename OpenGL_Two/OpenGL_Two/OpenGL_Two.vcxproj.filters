@@ -51,6 +51,12 @@
     <ClCompile Include="Source\Lighting\Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Meshes\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Meshes\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game.h">
@@ -101,6 +107,12 @@
     <ClInclude Include="Source\FileTools.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Meshes\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Meshes\Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Shaders\shader_A.vs" />
@@ -108,6 +120,8 @@
     <None Include="Source\Shaders\shader_Lit.fs" />
     <None Include="Source\Shaders\shader_Lit.vs" />
     <None Include="Source\Shaders\shader_Light.fs" />
+    <None Include="Source\Models\Nanosuit\nanosuit.blend" />
+    <None Include="Source\Models\Nanosuit\nanosuit.mtl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Source\Textures\wall.jpg">
@@ -128,5 +142,59 @@
     <Image Include="Source\Textures\matrix.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Source\Models\Nanosuit\arm_dif.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Source\Models\Nanosuit\arm_showroom_ddn.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Source\Models\Nanosuit\arm_showroom_spec.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Source\Models\Nanosuit\body_dif.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Source\Models\Nanosuit\body_showroom_ddn.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Source\Models\Nanosuit\body_showroom_spec.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Source\Models\Nanosuit\glass_ddn.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Source\Models\Nanosuit\glass_dif.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Source\Models\Nanosuit\hand_dif.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Source\Models\Nanosuit\hand_showroom_ddn.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Source\Models\Nanosuit\hand_showroom_spec.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Source\Models\Nanosuit\helmet_diff.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Source\Models\Nanosuit\helmet_showroom_ddn.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Source\Models\Nanosuit\helmet_showroom_spec.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Source\Models\Nanosuit\leg_dif.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Source\Models\Nanosuit\leg_showroom_ddn.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Source\Models\Nanosuit\leg_showroom_spec.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Source\Models\Nanosuit\LICENSE.txt" />
   </ItemGroup>
 </Project>

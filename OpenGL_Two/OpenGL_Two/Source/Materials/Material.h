@@ -10,12 +10,21 @@
 //material decides how a shader program is used, what textures are needed and such
 //currently vertex shader NEEDS view, projection and model matrices to be drawn
 
+struct Texture {
+	unsigned int id;
+	std::string type;
+	std::string path;
+};
+
 class Material
 {
 protected:
-	Shader shaderOne;
 
 public:
+	//textures
+	std::vector<Texture> textures;
+
+	Shader shaderOne;
 	virtual void Initialize() = 0;
 	virtual void InitDraw(glm::mat4 view, glm::mat4 projection, glm::mat4 model, class Camera* drawCam, std::vector<Light*> lights) = 0;
 };
