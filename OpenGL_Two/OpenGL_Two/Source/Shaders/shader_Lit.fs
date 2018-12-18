@@ -31,6 +31,11 @@ uniform Material material;
 uniform DirLight dirLight;
 uniform PointLight pointLights[MAX_POINT_LIGHTS];
 uniform int pointLightCount;
+uniform int renderType = 0;
+
+//0 = opaque
+//1 = transparent
+//2 = cutout
 
 uniform sampler2D texture_diffuse1;
 uniform sampler2D texture_diffuse2;
@@ -72,9 +77,16 @@ void main()
 	}
 	
 	result += ambient;
-	//result += emission;
 	
-	FragColor = vec4(result, 1.0);
+	if(renderType == 2 && texture(texture_diffuse1, TexCoords).a < 0.01)
+        discard;
+		
+	float alphaValue = 1;
+	if(renderType == 1){
+		alphaValue = texture(texture_diffuse1, TexCoords).a;
+	}
+	
+	FragColor = vec4(result, alphaValue);
 }
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)

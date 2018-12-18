@@ -17,8 +17,6 @@ public:
 			"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Shaders/shader_Light.fs");
 		shaderOne.use();
 
-		//we NEED to set this before changing shader properties below!!!
-		shaderOne.use();
 	}
 	void InitDraw(glm::mat4 view, glm::mat4 projection, glm::mat4 model, Camera* drawCam, std::vector<Light*> lights) override {
 		shaderOne.use();

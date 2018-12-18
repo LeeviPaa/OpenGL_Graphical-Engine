@@ -16,7 +16,6 @@ class Model: public Drawable
 private:
 	//these two sync materials & meshes
 	std::vector<Mesh> meshes;
-	std::vector<Material_A> materials;
 
 	std::string directory;
 	std::vector<Texture> textures_loaded;
@@ -28,6 +27,7 @@ private:
 	std::vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
 	unsigned int TextureFromFile(const char *path, const std::string &directory);
 public:
+	std::vector<Material_A> materials;
 	Model(std::string const &path)
 	{
 		loadModel(path);

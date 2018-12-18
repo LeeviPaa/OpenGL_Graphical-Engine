@@ -37,16 +37,16 @@ static void input_callback(GLFWwindow* window, int key, int scancode, int action
 }
 
 glm::vec3 cubePositions[] = {
-	glm::vec3(0.0f,  0.0f,  0.0f),
+	glm::vec3(5.0f,  0.0f,  0.0f),
 	glm::vec3(2.0f,  5.0f, -15.0f),
-	glm::vec3(-1.5f, -2.2f, -2.5f),
+	glm::vec3(-3.5f, -2.2f, -2.5f),
 	glm::vec3(-3.8f, -2.0f, -12.3f),
-	glm::vec3(2.4f, -0.4f, -3.5f),
-	glm::vec3(-1.7f,  3.0f, -7.5f),
-	glm::vec3(1.3f, -2.0f, -2.5f),
-	glm::vec3(1.5f,  2.0f, -2.5f),
-	glm::vec3(1.5f,  0.2f, -1.5f),
-	glm::vec3(-1.3f,  1.0f, -1.5f)
+	glm::vec3(7.4f, -0.4f, -3.5f),
+	glm::vec3(-3.7f,  3.0f, -7.5f),
+	glm::vec3(3.3f, -2.0f, -2.5f),
+	glm::vec3(1.5f,  6.0f, -2.5f),
+	glm::vec3(11.5f,  0.2f, -1.5f),
+	glm::vec3(-1.3f,  8.0f, -1.5f)
 };
 
 Game::Game(GLFWwindow* window)
@@ -92,7 +92,39 @@ Game::Game(GLFWwindow* window)
 		sceneLights.push_back(pointLights[i]);
 	}
 
+	//models ------------------------------------
 	nanosuit = new Model("G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Models/Nanosuit/nanosuit.obj");
+	floor = new Model("G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Models/Floor/floor.obj");
+
+	//grass ------------------------------------
+	std::vector<Vertex> vertices;
+	for (int x = 0; x < 2; x++)
+	{
+		for (int y = 0; y < 2; y++)
+		{
+			Vertex v;
+			v.Position = glm::vec3(x, y, 0.0f);
+			
+			v.TexCoords = glm::vec2(x, glm::abs(y-1));
+
+			v.Normal = glm::vec3(0.0f, 0.0f,1.0f);
+			/*v.Bitangent = glm::vec3(0.0f);
+			v.Tangent = glm::vec3(0.0f);*/
+
+			vertices.push_back(v);
+		}
+	}
+	std::vector<unsigned int> indices{
+		0, 3, 1,
+		0, 2, 3
+	};
+
+	grass = new Mesh(vertices, indices);
+	grassMat.Initialize();
+	grassMat.setMaterialTexture(
+		"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Textures/blending_transparent_window.png",
+		aiTextureType::aiTextureType_DIFFUSE);
+	grassMat.GetShader()->setRenderType(Transparent);
 }
 
 void Game::Update()
@@ -125,7 +157,7 @@ void Game::Update()
 			l->diffuse = color * 0.3f;
 	}
 	
-	//render the light objects
+	//render the light objects--------------------------------------
 	for (int i = 0; i < 4; i++)
 	{
 		glm::mat4 trans = glm::mat4(1.0f);
@@ -135,19 +167,47 @@ void Game::Update()
 		mainRender->Render(renderWindow, deltaTime, mainCamera, sceneLight, &materialLight, trans, sceneLights);
 	}
 
+
+	// render the nanosuit--------------------------------------
 	glm::mat4 transform = glm::mat4(1.0f);
-	transform = glm::translate(transform, glm::vec3(0.0f, -2.0f, -2.0f));
+	transform = glm::translate(transform, glm::vec3(0.0f, -3.0f, -2.0f));
 	transform = glm::scale(transform, glm::vec3(0.25f));
 	//for now the model class uses the materials provided within, so no need to provide a material
-	mainRender->Render(renderWindow, deltaTime, mainCamera, nanosuit, nullptr, transform, sceneLights);
 
-	//this needs to be optimized so that similar objects are rendered in the same draw call
+	for (int i = 0; i < 1; i++) //stress test
+	{
+		mainRender->Render(renderWindow, deltaTime, mainCamera, nanosuit, nullptr, transform, sceneLights);
+	}
+
+	//render the floor--------------------------------------
+	transform = glm::mat4(1.0f);
+	transform = glm::translate(transform, glm::vec3(0.0f, -3.0f, -2.0f));
+	transform = glm::scale(transform, glm::vec3(2.0f, 1.0f, 2.0f));
+
+	for (Material_A &var : floor->materials)
+	{
+		var.GetShader()->use();
+		var.GetShader()->setFloat("uvScale", 5);
+	}
+	mainRender->Render(renderWindow, deltaTime, mainCamera, floor, nullptr, transform, sceneLights);
+
+	//render the boxes--------------------------------------
 	for (unsigned int i = 0; i < 10; i++)
 	{
 		glm::mat4 transform = glm::mat4(1.0f);
 		transform = glm::translate(transform, cubePositions[i]);
 
 		mainRender->Render(renderWindow, deltaTime, mainCamera, &cubes, &materialLit, transform, sceneLights);
+	}
+
+	// ----------------------------------------------------------------------------
+	// RENDER TRANSPARENT OBJECTS SORTED BY DISTANCE HERE!!! ----------------------
+	// ----------------------------------------------------------------------------
+	{
+		glm::mat4 trans = glm::mat4(1.0f);
+		trans = glm::translate(trans, glm::vec3(0.0f, -2.0f, -0));
+
+		mainRender->Render(renderWindow, deltaTime, mainCamera, grass, &grassMat, trans, sceneLights);
 	}
 
 	mainRender->FinishRendering(renderWindow);
@@ -159,6 +219,7 @@ Game::~Game()
 	{
 		delete pointLights[i];
 	}
+	delete(grass);
 	delete(nanosuit);
 	delete(sceneLight);
 	delete(mainCamera);

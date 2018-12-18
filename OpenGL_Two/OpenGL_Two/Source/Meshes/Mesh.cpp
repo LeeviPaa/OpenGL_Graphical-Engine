@@ -34,7 +34,7 @@ void Mesh::SetupMesh()
 	// vertex bitangent
 	glEnableVertexAttribArray(4);
 	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Bitangent));
-	
+
 	glBindVertexArray(0);
 }
 
@@ -48,6 +48,9 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices)
 
 void Mesh::Draw(Camera * mainCam, Material * mat, glm::mat4 objectTransform, std::vector<Light*> lights)
 {
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+
 	//setup material properties
 	glm::mat4 view;
 	view = mainCam->GetViewMatrix();

@@ -14,13 +14,15 @@ public:
 
 		//enable depth testing
 		glEnable(GL_DEPTH_TEST);
+		//enable blending
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 
 	void InitDraw(glm::mat4 view, glm::mat4 projection, glm::mat4 model, Camera* drawCam, std::vector<Light*> lights) override {
 		shaderOne.use();
-
-		float time = glfwGetTime();
 
 		unsigned int diffuseNr = 1;
 		unsigned int specularNr = 1;

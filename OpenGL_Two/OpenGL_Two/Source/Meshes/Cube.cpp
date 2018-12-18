@@ -43,6 +43,9 @@ void Cube::Initialize()
 
 void Cube::Draw(Camera* mainCam, Material* mat, glm::mat4 objectTransform, std::vector<class Light*> lights)
 {
+	//we dont cull these because the (my defined) vertex indices suck and dont work
+	glDisable(GL_CULL_FACE);
+
 	//camera
 	glm::mat4 view;
 	view = mainCam->GetViewMatrix();
