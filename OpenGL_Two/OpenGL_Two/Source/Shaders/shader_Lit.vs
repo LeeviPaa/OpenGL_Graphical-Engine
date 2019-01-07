@@ -24,6 +24,4 @@ void main()
    //more expensive way to compensate for non uniform scale
    Normal = mat3(transpose(inverse(view * model)))*aNormal;
    View = view;
-   //LightPos = vec3(view * vec4(lightPos, 1.0));
-   //LightDir = vec3(view * vec4(lightDir, 0.0));
 }

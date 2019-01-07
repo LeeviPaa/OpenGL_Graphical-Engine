@@ -201,10 +201,19 @@ unsigned int Model::TextureFromFile(const char *path, const std::string &directo
 
 void Model::Draw(Camera * mainCam, Material * mat, glm::mat4 objectTransform, std::vector<Light*> lights)
 {
-	for (unsigned int i = 0; i < meshes.size(); i++)
+	if (!mat)
 	{
-		//here despite having a material provided for us, we ignore it and use the internal material for now
-		//TODO: separate the materials further from the meshes and models
-		meshes[i].Draw(mainCam, &materials[i], objectTransform, lights);
+		for (unsigned int i = 0; i < meshes.size(); i++)
+		{
+			//TODO: separate the materials further from the meshes and models
+			meshes[i].Draw(mainCam, &materials[i], objectTransform, lights);
+		}
+	}
+	else
+	{
+		for (unsigned int i = 0; i < meshes.size(); i++)
+		{
+			meshes[i].Draw(mainCam, mat, objectTransform, lights);
+		}
 	}
 }

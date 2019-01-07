@@ -16,6 +16,8 @@
 class Renderer
 {
 public:
+	Cubemap skybox;
+
 	Renderer(GLFWwindow* window);
 	unsigned int VAO;
 	void StartRendering();
@@ -38,7 +40,6 @@ private:
 	Shader screenShader;
 	bool postProcessing = true;
 
-	Cubemap skybox;
 	std::vector<std::string> cubemapPaths = {
 		"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Textures/SkyboxA/cubemap +X.png",
 		"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Textures/SkyboxA/cubemap -X.png",

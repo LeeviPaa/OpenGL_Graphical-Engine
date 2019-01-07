@@ -8,6 +8,8 @@
 #include "Lighting/Light.h"
 #include "Materials/Material_A.h"
 #include "Materials/Material_Light.h"
+#include "Materials/Material_Chrome.h"
+#include "Materials/Material_Ice.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <vector>
@@ -25,6 +27,8 @@ private:
 	float lastFrame = 0.0f;
 
 	Material_A materialLit;
+	Material_Chrome materialChrome;
+	Material_Ice materialIce;
 	Material_Light materialLight;
 	Cube cubes;
 

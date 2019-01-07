@@ -116,6 +116,12 @@
     <ClInclude Include="Source\Materials\Cubemap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Materials\Material_Chrome.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Materials\Material_Ice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Shaders\shader_A.vs" />

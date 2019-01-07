@@ -70,6 +70,8 @@ Game::Game(GLFWwindow* window)
 		aiTextureType::aiTextureType_SPECULAR);
 
 	materialLight.Initialize();
+	materialChrome.Initialize();
+	materialIce.Initialize();
 
 	sceneLight = new Light(LightType::Directional,
 		glm::vec3(0.5f, 0.5f, 0.5f),
@@ -186,6 +188,30 @@ void Game::Update()
 		mainRender->Render(renderWindow, deltaTime, mainCamera, nanosuit, nullptr, transform, sceneLights);
 	}
 
+	// render chrome nanosuit--------------------------------------
+	transform = glm::mat4(1.0f);
+	transform = glm::translate(transform, glm::vec3(2.5f, -3.0f, -2.0f));
+	transform = glm::scale(transform, glm::vec3(0.25f));
+	for (int i = 0; i < 1; i++) //stress test
+	{
+		//this is ghetto af
+		materialChrome.cubemapTexture = mainRender->skybox.cubemapTexture;
+
+		mainRender->Render(renderWindow, deltaTime, mainCamera, nanosuit, &materialChrome, transform, sceneLights);
+	}
+
+	// render glass nanosuit--------------------------------------
+	transform = glm::mat4(1.0f);
+	transform = glm::translate(transform, glm::vec3(-2.5f, -3.0f, -2.0f));
+	transform = glm::scale(transform, glm::vec3(0.25f));
+	for (int i = 0; i < 1; i++) //stress test
+	{
+		//this is ghetto af
+		materialIce.cubemapTexture = mainRender->skybox.cubemapTexture;
+
+		mainRender->Render(renderWindow, deltaTime, mainCamera, nanosuit, &materialIce, transform, sceneLights);
+	}
+
 	//render the floor--------------------------------------
 	transform = glm::mat4(1.0f);
 	transform = glm::translate(transform, glm::vec3(0.0f, -3.0f, -2.0f));
@@ -204,7 +230,7 @@ void Game::Update()
 		glm::mat4 transform = glm::mat4(1.0f);
 		transform = glm::translate(transform, cubePositions[i]);
 
-		mainRender->Render(renderWindow, deltaTime, mainCamera, &cubes, &materialLit, transform, sceneLights);
+		mainRender->Render(renderWindow, deltaTime, mainCamera, &cubes, &materialChrome, transform, sceneLights);
 	}
 
 	// ----------------------------------------------------------------------------

@@ -11,7 +11,6 @@ class Cubemap
 {
 private:
 	unsigned int VAO, VBO;
-	unsigned int cubemapTexture;
 	Shader skyboxShader;
 
 	float vertices[108] = {
@@ -60,8 +59,13 @@ private:
 	};
 
 public:
+	unsigned int cubemapTexture;
+
 	Cubemap();
 	void loadCubemap(std::vector<std::string> faces);
 	void DrawCubemap(Camera* mainCam);
+	void BindCubemap() {
+		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+	}
 };
 

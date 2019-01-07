@@ -67,7 +67,7 @@ void Cubemap::DrawCubemap(Camera * mainCam)
 	//setup material properties
 	glm::mat4 view;
 	view = glm::mat4(glm::mat3(mainCam->GetViewMatrix()));
-	view = glm::rotate(view, glm::radians(90.0f), glm::vec3(0, 1, 0));
+	//view = glm::rotate(view, glm::radians(90.0f), glm::vec3(0, 1, 0));
 
 	glm::mat4 proj;
 	proj = mainCam->GetProjection();
