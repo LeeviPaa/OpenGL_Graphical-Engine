@@ -119,6 +119,8 @@
     <None Include="Source\Shaders\shader_Light.fs" />
     <None Include="Source\Models\Nanosuit\nanosuit.blend" />
     <None Include="Source\Models\Nanosuit\nanosuit.mtl" />
+    <None Include="Source\Shaders\screenShader.fs" />
+    <None Include="Source\Shaders\screenShader.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Source\Textures\wall.jpg">

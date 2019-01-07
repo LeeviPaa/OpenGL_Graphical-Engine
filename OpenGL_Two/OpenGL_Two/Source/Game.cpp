@@ -11,19 +11,18 @@ static void input_callback(GLFWwindow* window, int key, int scancode, int action
 		return;
 	}
 
-	if (key == GLFW_KEY_KP_0 && action == GLFW_PRESS)
+	/*if (key == GLFW_KEY_KP_0 && action == GLFW_PRESS)
 	{
 		if (gate)
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
 		}
 		else
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 		gate = !gate;
-	}
+	}*/
 
 	if (key == GLFW_KEY_TAB && action == GLFW_PRESS)
 	{
@@ -53,7 +52,7 @@ Game::Game(GLFWwindow* window)
 {
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	renderWindow = window;
-	mainRender = new Renderer();
+	mainRender = new Renderer(window);
 	mainCamera = new Camera(window);
 
 	//bind some keys
@@ -144,6 +143,16 @@ void Game::Update()
 	//render stuff
 	mainRender->StartRendering();
 
+	// ----------------------------------------------------------------------------
+	// RENDER ORDER
+	//
+	//	1. Draw all opaque objects first.
+	//	2. Sort all the transparent objects.
+	//	3. Draw all the transparent objects in sorted order.
+	//
+	// NOTE: default lit material (Material_A) is opaque by default
+	// ----------------------------------------------------------------------------
+
 	glm::vec3 color = glm::vec3(
 		1.3f + (sin(currentFrame) / 2.0f),
 		1.3f + (sin(currentFrame + glm::radians(180.0f)) / 2.0f),
@@ -167,13 +176,11 @@ void Game::Update()
 		mainRender->Render(renderWindow, deltaTime, mainCamera, sceneLight, &materialLight, trans, sceneLights);
 	}
 
-
 	// render the nanosuit--------------------------------------
 	glm::mat4 transform = glm::mat4(1.0f);
 	transform = glm::translate(transform, glm::vec3(0.0f, -3.0f, -2.0f));
 	transform = glm::scale(transform, glm::vec3(0.25f));
 	//for now the model class uses the materials provided within, so no need to provide a material
-
 	for (int i = 0; i < 1; i++) //stress test
 	{
 		mainRender->Render(renderWindow, deltaTime, mainCamera, nanosuit, nullptr, transform, sceneLights);
@@ -201,7 +208,7 @@ void Game::Update()
 	}
 
 	// ----------------------------------------------------------------------------
-	// RENDER TRANSPARENT OBJECTS SORTED BY DISTANCE HERE!!! ----------------------
+	// RENDER TRANSPARENT OBJECTS SORTED BY DISTANCE HERE!!! 
 	// ----------------------------------------------------------------------------
 	{
 		glm::mat4 trans = glm::mat4(1.0f);

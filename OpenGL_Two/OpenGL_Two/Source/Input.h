@@ -13,6 +13,8 @@ enum BUTTON
 	Q,
 	SPACE,
 	ENTER,
+	TAB,
+	NUM0,
 	COUNT
 };
 enum BUTTONSTATE

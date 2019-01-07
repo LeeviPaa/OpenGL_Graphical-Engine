@@ -131,6 +131,48 @@ void Input::UpdateInputs(GLFWwindow* window, float deltaTime)
 		Prev[Q] = false;
 	}
 
+	//Tab key
+	if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS)
+	{
+		Input::Button[TAB] = DOWN;
+
+		if (Prev == false)
+		{
+			Input::Button[TAB] = PRESSED;
+		}
+		Prev[TAB] = true;
+	}
+	else
+	{
+		Input::Button[TAB] = UP;
+		if (Prev[TAB] == true)
+		{
+			Input::Button[TAB] = RELEASED;
+		}
+		Prev[TAB] = false;
+	}
+
+	//Numpad 0 key
+	if (glfwGetKey(window, GLFW_KEY_KP_0) == GLFW_PRESS)
+	{
+		Input::Button[NUM0] = DOWN;
+
+		if (Prev[NUM0] == false)
+		{
+			Input::Button[NUM0] = PRESSED;
+		}
+		Prev[NUM0] = true;
+	}
+	else
+	{
+		Input::Button[NUM0] = UP;
+		if (Prev[NUM0] == true)
+		{
+			Input::Button[NUM0] = RELEASED;
+		}
+		Prev[NUM0] = false;
+	}
+
 	//debug
 	/*switch (Button[BUTTON::W])
 	{
