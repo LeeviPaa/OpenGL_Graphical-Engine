@@ -217,7 +217,7 @@ void Game::Update()
 		mainRender->Render(renderWindow, deltaTime, mainCamera, grass, &grassMat, trans, sceneLights);
 	}
 
-	mainRender->FinishRendering(renderWindow);
+	mainRender->FinishRendering(renderWindow, mainCamera);
 }
 
 Game::~Game()

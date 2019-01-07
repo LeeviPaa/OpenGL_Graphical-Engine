@@ -59,6 +59,9 @@ Renderer::Renderer(GLFWwindow* window)
 	screenShader = Shader(
 		"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Shaders/screenShader.vs",
 		"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Shaders/screenShader.fs");
+
+	//skybox
+	skybox.loadCubemap(cubemapPaths);
 }
 
 void Renderer::StartRendering()
@@ -111,8 +114,11 @@ void Renderer::Render(GLFWwindow* window,float deltaTime, Camera* mainCam, Drawa
 	objectToDraw->Draw(mainCam, mat, objectTransform, lights);
 }
 
-void Renderer::FinishRendering(GLFWwindow* window)
+void Renderer::FinishRendering(GLFWwindow* window, Camera* mainCam)
 {
+	//draw skybox
+	skybox.DrawCubemap(mainCam);
+
 	if (postProcessing)
 	{
 		//bind back to default framebuffer and draw a quad plane with the framebuffer color texture

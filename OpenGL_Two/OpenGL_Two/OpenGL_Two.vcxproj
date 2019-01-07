@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Materials\Cubemap.cpp" />
     <ClCompile Include="Source\Meshes\Model.cpp" />
     <ClCompile Include="Source\Meshes\Mesh.cpp" />
     <ClCompile Include="Source\Lighting\Light.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="Source\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Materials\Cubemap.h" />
     <ClInclude Include="Source\Meshes\Model.h" />
     <ClInclude Include="Source\Meshes\Mesh.h" />
     <ClInclude Include="Source\FileTools.h" />
@@ -183,6 +185,8 @@
     <None Include="Source\Shaders\shader_Light.fs" />
     <None Include="Source\Shaders\shader_Lit.fs" />
     <None Include="Source\Shaders\shader_Lit.vs" />
+    <None Include="Source\Shaders\shader_skybox.fs" />
+    <None Include="Source\Shaders\shader_skybox.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Source\Models\Nanosuit\arm_dif.png" />

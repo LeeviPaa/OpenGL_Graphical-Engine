@@ -57,6 +57,9 @@
     <ClCompile Include="Source\Meshes\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Materials\Cubemap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Game.h">
@@ -110,6 +113,9 @@
     <ClInclude Include="Source\Meshes\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Materials\Cubemap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Shaders\shader_A.vs" />
@@ -121,6 +127,8 @@
     <None Include="Source\Models\Nanosuit\nanosuit.mtl" />
     <None Include="Source\Shaders\screenShader.fs" />
     <None Include="Source\Shaders\screenShader.vs" />
+    <None Include="Source\Shaders\shader_skybox.fs" />
+    <None Include="Source\Shaders\shader_skybox.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Source\Textures\wall.jpg">

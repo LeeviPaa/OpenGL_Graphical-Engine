@@ -10,6 +10,8 @@
 #include <GLFW/glfw3.h>
 #include <vector>
 #include "Meshes/Mesh.h"
+#include "Materials/Cubemap.h"
+#include "FileTools.h"
 
 class Renderer
 {
@@ -19,7 +21,7 @@ public:
 	void StartRendering();
 	void Render(GLFWwindow*, float deltaTime, Camera* mainCam, 
 		Drawable* objectToDraw, Material* mat, glm::mat4 objectTransform, std::vector<class Light*> lights);
-	void FinishRendering(GLFWwindow*);
+	void FinishRendering(GLFWwindow* window, Camera* mainCam);
 private:
 	float quadVertices[24] = {
 		// positions   // texCoords
@@ -35,5 +37,14 @@ private:
 	unsigned int quadVAO, quadVBO;
 	Shader screenShader;
 	bool postProcessing = true;
+
+	Cubemap skybox;
+	std::vector<std::string> cubemapPaths = {
+		"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Textures/SkyboxA/cubemap +X.png",
+		"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Textures/SkyboxA/cubemap -X.png",
+		"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Textures/SkyboxA/cubemap +Y.png",
+		"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Textures/SkyboxA/cubemap -Y.png",
+		"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Textures/SkyboxA/cubemap +Z.png",
+		"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Textures/SkyboxA/cubemap -Z.png" };
 };
 
