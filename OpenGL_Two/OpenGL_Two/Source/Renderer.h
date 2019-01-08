@@ -20,7 +20,7 @@ public:
 
 	Renderer(GLFWwindow* window);
 	unsigned int VAO;
-	void StartRendering(Camera* mainCamera);
+	void StartRendering(Camera* mainCamera, std::vector<class Light*>* lights);
 	void Render(GLFWwindow*, float deltaTime, Camera* mainCam, 
 		Drawable* objectToDraw, Material* mat, glm::mat4 objectTransform, std::vector<class Light*> lights);
 	void FinishRendering(GLFWwindow* window, Camera* mainCam);
@@ -39,6 +39,9 @@ private:
 	unsigned int quadVAO, quadVBO;
 	Shader screenShader;
 	bool postProcessing = true;
+
+	void SetMatrixUniformBufferData(Camera* mainCamera);
+	void SetLightUniformBufferData(std::vector<Light*>* lights);
 
 	std::vector<std::string> cubemapPaths = {
 		"G:/Projects/OpenGL/MinecraftClone/OpenGL_Graphical Engine/OpenGL_Two/OpenGL_Two/Source/Textures/SkyboxA/cubemap +X.png",

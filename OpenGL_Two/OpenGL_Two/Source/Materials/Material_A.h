@@ -56,31 +56,9 @@ public:
 		//process the lights
 		for (Light* l : lights)
 		{
-			switch (l->type)
+			if (l->type == Point)
 			{
-			case Directional:
-
-				shaderOne.setVec3("dirLight.diffuse", l->diffuse);
-				shaderOne.setVec3("dirLight.specular", l->specular);
-				shaderOne.setVec3("dirLight.direction", l->direction);
-				break;
-			case Point:
-				shaderOne.setFloat("pointLights[" + std::to_string(pointLights) + "].constant", l->attenuation.constant);
-				shaderOne.setFloat("pointLights[" + std::to_string(pointLights) + "].linear", l->attenuation.linear);
-				shaderOne.setFloat("pointLights[" + std::to_string(pointLights) + "].quadratic", l->attenuation.quadratic);
-				shaderOne.setVec3("pointLights[" + std::to_string(pointLights) + "].position", l->position);
-				shaderOne.setVec3("pointLights[" + std::to_string(pointLights) + "].diffuse", l->diffuse);
-				shaderOne.setVec3("pointLights[" + std::to_string(pointLights) + "].specular", l->specular);
-
 				pointLights++;
-				break;
-			case Spotlight:
-				//TODO
-				break;
-			case Ambient:
-				break;
-			default:
-				break;
 			}
 		}
 		shaderOne.setInt("pointLightCount", pointLights);

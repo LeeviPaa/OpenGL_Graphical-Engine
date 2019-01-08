@@ -1,4 +1,4 @@
-#version 330 core
+#version 420
 struct Material{
 sampler2D diffuse;
 sampler2D specular;
@@ -6,10 +6,8 @@ sampler2D emission;
 float shininess;
 };
 struct DirLight{
-	vec3 ambient;
 	vec3 diffuse;
 	vec3 specular;
-	
 	vec3 direction;
 };
 struct PointLight{
@@ -19,7 +17,6 @@ struct PointLight{
 	float linear;
 	float quadratic;
 	
-	vec3 ambient;
 	vec3 diffuse;
 	vec3 specular;
 };
@@ -28,10 +25,17 @@ out vec4 FragColor;
 
 uniform Material material;
 
-#define MAX_POINT_LIGHTS 64
-uniform DirLight dirLight;
-uniform PointLight pointLights[MAX_POINT_LIGHTS];
+layout (std140, binding = 1) uniform DirectionalLight
+{
+	uniform DirLight dirLight;
+};
+
 uniform int pointLightCount;
+#define MAX_POINT_LIGHTS 64
+layout (std140, binding = 2) uniform PointLights
+{
+	PointLight pointLights[MAX_POINT_LIGHTS];
+};
 
 uniform int renderType = 0;
 

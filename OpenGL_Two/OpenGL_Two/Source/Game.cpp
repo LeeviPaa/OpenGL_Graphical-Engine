@@ -74,8 +74,8 @@ Game::Game(GLFWwindow* window)
 	materialIce.Initialize();
 
 	sceneLight = new Light(LightType::Directional,
-		glm::vec3(0.8f, 0.8f, 0.8f),
-		glm::vec3(1.0f, 1.0f, 1.0f),
+		glm::vec3(0.0f, 0.0f, 0.0f),
+		glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(0.0f),
 		glm::vec3(-0.4f, -1.0f, -0.4f));
 	//add it to the list
@@ -143,8 +143,10 @@ void Game::Update()
 	mainCamera->Update(deltaTime);
 
 	//render stuff
-	mainRender->StartRendering(mainCamera);
+	mainRender->StartRendering(mainCamera, &sceneLights);
 
+	//NOTE:These bindings seem to work without us specifically having to declare
+	//as is done in the following lines
 
 	//Move these to the Renderer
 	//foreach (material that uses view matrices)
@@ -162,6 +164,35 @@ void Game::Update()
 		glUniformBlockBinding(chrome->ID, informBlockIndexChrome, 0);
 		glUniformBlockBinding(ice->ID, informBlockIndexIce, 0);
 		glUniformBlockBinding(light->ID, informBlockIndexLight, 0);
+	}
+
+	//Light bindings 
+	//foreach (lit material)
+	{
+		Shader* lit = materialLit.GetShader();
+		Shader* chrome = materialChrome.GetShader();
+		Shader* ice = materialIce.GetShader();
+		Shader* light = materialLight.GetShader();
+
+		unsigned int informBlockIndexLit = glGetUniformBlockIndex(lit->ID, "PointLights");
+		unsigned int informBlockIndexChrome = glGetUniformBlockIndex(chrome->ID, "PointLights");
+		unsigned int informBlockIndexIce = glGetUniformBlockIndex(ice->ID, "PointLights");
+		unsigned int informBlockIndexLight = glGetUniformBlockIndex(light->ID, "PointLights");
+
+		glUniformBlockBinding(lit->ID, informBlockIndexLit, 1);
+		glUniformBlockBinding(chrome->ID, informBlockIndexChrome, 1);
+		glUniformBlockBinding(ice->ID, informBlockIndexIce, 1);
+		glUniformBlockBinding(light->ID, informBlockIndexLight, 1);
+
+		informBlockIndexLit = glGetUniformBlockIndex(lit->ID, "DirectionalLight");
+		informBlockIndexChrome = glGetUniformBlockIndex(chrome->ID, "DirectionalLight");
+		informBlockIndexIce = glGetUniformBlockIndex(ice->ID, "DirectionalLight");
+		informBlockIndexLight = glGetUniformBlockIndex(light->ID, "DirectionalLight");
+
+		glUniformBlockBinding(lit->ID, informBlockIndexLit, 2);
+		glUniformBlockBinding(chrome->ID, informBlockIndexChrome, 2);
+		glUniformBlockBinding(ice->ID, informBlockIndexIce, 2);
+		glUniformBlockBinding(light->ID, informBlockIndexLight, 2);
 	}
 
 	// ----------------------------------------------------------------------------

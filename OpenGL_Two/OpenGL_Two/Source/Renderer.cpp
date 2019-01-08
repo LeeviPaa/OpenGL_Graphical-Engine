@@ -64,7 +64,7 @@ Renderer::Renderer(GLFWwindow* window)
 	skybox.loadCubemap(cubemapPaths);
 }
 
-void Renderer::StartRendering(Camera* mainCamera)
+void Renderer::StartRendering(Camera* mainCamera, std::vector<class Light*>* lights)
 {
 	if (Input::GetButtonState(NUM0) == BUTTONSTATE::PRESSED)
 	{
@@ -106,34 +106,11 @@ void Renderer::StartRendering(Camera* mainCamera)
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// set the uniform buffers so that we dont have to set values each time object is drawn each frame, 
-	// if the value does not change. 
-	{
-		//individual shader bindings
-		//currently in the Game object
+	//uniform buffer matrices
+	SetMatrixUniformBufferData(mainCamera);
 
-		//actual buffer setup
-		unsigned int uboMatrices;
-		glGenBuffers(1, &uboMatrices);
-
-		glBindBuffer(GL_UNIFORM_BUFFER, uboMatrices);
-		glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4), NULL, GL_STATIC_DRAW);
-		glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
-		glBindBufferRange(GL_UNIFORM_BUFFER, 0, uboMatrices, 0, 2 * sizeof(glm::mat4));
-
-		glm::mat4 projection = mainCamera->GetProjection();
-		glm::mat4 view = mainCamera->GetViewMatrix();
-
-		glBindBuffer(GL_UNIFORM_BUFFER, uboMatrices);
-		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(view));
-		glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(projection));
-		glBindBuffer(GL_UNIFORM_BUFFER, 0);
-	}
-
-	//
-	//TODO: Add uniform light buffer so that the light data has to be set once per frame!
-	//
+	//Uniform light buffer
+	SetLightUniformBufferData(lights);
 }
 
 void Renderer::Render(GLFWwindow* window,float deltaTime, Camera* mainCam, Drawable* objectToDraw, Material* mat, glm::mat4 objectTransform, std::vector<Light*> lights)
@@ -165,4 +142,123 @@ void Renderer::FinishRendering(GLFWwindow* window, Camera* mainCam)
 
 	/* Swap front and back buffers */
 	glfwSwapBuffers(window);
+}
+
+void Renderer::SetMatrixUniformBufferData(Camera* mainCamera)
+{
+	// set the uniform buffers so that we dont have to set values each time object is drawn each frame, 
+	// if the value does not change. 
+	{
+		//individual shader bindings
+		//currently in the Game object
+
+		//actual buffer setup
+		unsigned int uboMatrices;
+		glGenBuffers(1, &uboMatrices);
+
+		glBindBuffer(GL_UNIFORM_BUFFER, uboMatrices);
+		glBufferData(GL_UNIFORM_BUFFER, 2 * sizeof(glm::mat4), NULL, GL_STATIC_DRAW);
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+		glBindBufferRange(GL_UNIFORM_BUFFER, 0, uboMatrices, 0, 2 * sizeof(glm::mat4));
+
+		glm::mat4 projection = mainCamera->GetProjection();
+		glm::mat4 view = mainCamera->GetViewMatrix();
+
+		glBindBuffer(GL_UNIFORM_BUFFER, uboMatrices);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(view));
+		glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(projection));
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	}
+}
+
+void Renderer::SetLightUniformBufferData(std::vector<Light*>* lights)
+{
+	DirectionalLightVariables dirVar;
+	int directionalLights = 0;
+
+	std::vector<PointLightVariables> pointLightData;
+	int pointLights = 0;
+
+	for (Light* l : *lights)
+	{
+		switch (l->type)
+		{
+		case Directional:
+			//DIRECTIONAL LIGHT
+			dirVar.diffuse = glm::vec4(l->diffuse, 1.0f);
+			dirVar.specular = glm::vec4(l->specular, 1.0f);
+			dirVar.direction = glm::vec4(l->direction, 1.0f);
+
+			directionalLights++;
+			break;
+		case Point:
+			PointLightVariables p;
+
+			p.position = glm::vec4(l->position, 1.0f);
+
+			p.constant = l->attenuation.constant;
+			p.linear = l->attenuation.linear;
+			p.quadratic = l->attenuation.quadratic;
+
+			p.diffuse = glm::vec4(l->diffuse, 1.0f);
+			p.specular = glm::vec4(l->specular, 1.0f);
+
+			pointLightData.push_back(p);
+			pointLights++;
+			break;
+		case Spotlight:
+			break;
+		case Ambient:
+			break;
+		default:
+			break;
+		}
+	}
+	#pragma region directional light
+
+	//actual light buffer setup
+	unsigned int uboDirLights;
+	glGenBuffers(1, &uboDirLights);
+
+	glBindBuffer(GL_UNIFORM_BUFFER, uboDirLights);
+	//how big is it all in all?
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(DirectionalLightVariables), NULL, GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	//glBindBufferRange(GL_UNIFORM_BUFFER, 0, uboDirLights, 0, sizeof(DirectionalLightVariables));
+	glBindBufferBase(GL_UNIFORM_BUFFER, 1, uboDirLights);
+
+	//glBindBuffer(GL_UNIFORM_BUFFER, uboDirLights);
+	//variable sizes and offsets
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(DirectionalLightVariables), &dirVar);
+	//var 2
+	//glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(projection));
+
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	#pragma endregion
+	{
+		unsigned int uboPointLights;
+		glGenBuffers(1, &uboPointLights);
+		glBindBuffer(GL_UNIFORM_BUFFER, uboPointLights);
+
+		glBufferData(GL_UNIFORM_BUFFER, 64 * sizeof(PointLightVariables), NULL, GL_DYNAMIC_DRAW);
+
+		glBindBufferBase(GL_UNIFORM_BUFFER, 2, uboPointLights);
+		//glBindBuffer(GL_UNIFORM_BUFFER, uboPointLights);
+
+		for (int i = 0; i < pointLights; i++)
+		{
+			//how big is it all in all?
+
+			//glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+			//glBindBufferRange(GL_UNIFORM_BUFFER, 0, uboDirLights, 0, sizeof(DirectionalLightVariables));
+
+			glBufferSubData(GL_UNIFORM_BUFFER, i * sizeof(PointLightVariables), sizeof(PointLightVariables), &pointLightData[i]);
+		}
+
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	}
 }

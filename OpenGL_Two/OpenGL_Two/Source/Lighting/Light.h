@@ -92,3 +92,22 @@ public:
 	void InitModel();
 };
 
+struct DirectionalLightVariables
+{
+	glm::vec4 diffuse;
+	glm::vec4 specular;
+	glm::vec4 direction;
+};
+struct PointLightVariables
+{
+	glm::vec4 position;
+
+	float constant;
+	float linear;
+	float quadratic;
+	float PADDING;
+
+	glm::vec4 diffuse;
+	glm::vec4 specular;
+};
+
