@@ -67,5 +67,9 @@ public:
 	void BindCubemap() {
 		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
 	}
+	Shader* GetShader()
+	{
+		return &skyboxShader;
+	}
 };
 

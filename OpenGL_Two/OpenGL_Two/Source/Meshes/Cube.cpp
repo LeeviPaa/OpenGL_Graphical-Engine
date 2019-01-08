@@ -46,15 +46,9 @@ void Cube::Draw(Camera* mainCam, Material* mat, glm::mat4 objectTransform, std::
 	//we dont cull these because the (my defined) vertex indices suck and dont work
 	glDisable(GL_CULL_FACE);
 
-	//camera
-	glm::mat4 view;
-	view = mainCam->GetViewMatrix();
-	glm::mat4 proj;
-	proj = mainCam->GetProjection();
-
 	//initialize material properties (textures and such) because each material has its own properties and textures to set
 	//"material, get ready to be drawn!"
-	mat->InitDraw(view, proj, objectTransform, mainCam, lights);
+	mat->InitDraw(objectTransform, mainCam, lights);
 
 	glBindVertexArray(VAO);
 

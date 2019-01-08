@@ -6,8 +6,11 @@ layout (location = 3) in vec3 aTangent;
 layout (location = 4) in vec3 aBitTangent;
 
 uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+layout (std140) uniform Matrices
+{
+	mat4 view;
+	mat4 projection;
+};
 uniform float uvScale = 1;
 
 out vec3 Normal;

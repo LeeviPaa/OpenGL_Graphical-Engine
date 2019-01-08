@@ -74,7 +74,7 @@ Game::Game(GLFWwindow* window)
 	materialIce.Initialize();
 
 	sceneLight = new Light(LightType::Directional,
-		glm::vec3(0.5f, 0.5f, 0.5f),
+		glm::vec3(0.8f, 0.8f, 0.8f),
 		glm::vec3(1.0f, 1.0f, 1.0f),
 		glm::vec3(0.0f),
 		glm::vec3(-0.4f, -1.0f, -0.4f));
@@ -143,7 +143,26 @@ void Game::Update()
 	mainCamera->Update(deltaTime);
 
 	//render stuff
-	mainRender->StartRendering();
+	mainRender->StartRendering(mainCamera);
+
+
+	//Move these to the Renderer
+	//foreach (material that uses view matrices)
+	{
+		Shader* lit = materialLit.GetShader();
+		unsigned int informBlockIndexLit = glGetUniformBlockIndex(lit->ID, "Matrices");
+		Shader* chrome = materialChrome.GetShader();
+		unsigned int informBlockIndexChrome = glGetUniformBlockIndex(chrome->ID, "Matrices");
+		Shader* ice = materialIce.GetShader();
+		unsigned int informBlockIndexIce = glGetUniformBlockIndex(ice->ID, "Matrices");
+		Shader* light = materialLight.GetShader();
+		unsigned int informBlockIndexLight = glGetUniformBlockIndex(light->ID, "Matrices");
+
+		glUniformBlockBinding(lit->ID, informBlockIndexLit, 0);
+		glUniformBlockBinding(chrome->ID, informBlockIndexChrome, 0);
+		glUniformBlockBinding(ice->ID, informBlockIndexIce, 0);
+		glUniformBlockBinding(light->ID, informBlockIndexLight, 0);
+	}
 
 	// ----------------------------------------------------------------------------
 	// RENDER ORDER
@@ -225,7 +244,7 @@ void Game::Update()
 	mainRender->Render(renderWindow, deltaTime, mainCamera, floor, nullptr, transform, sceneLights);
 
 	//render the boxes--------------------------------------
-	for (unsigned int i = 0; i < 10; i++)
+	for (unsigned int i = 0; i < 1; i++)
 	{
 		glm::mat4 transform = glm::mat4(1.0f);
 		transform = glm::translate(transform, cubePositions[i]);

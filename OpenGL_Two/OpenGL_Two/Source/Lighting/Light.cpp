@@ -38,15 +38,9 @@ void Light::InitModel()
 
 void Light::Draw(class Camera* mainCam, Material* mat, glm::mat4 objectTransform, std::vector<class Light*> lights)
 {
-	//camera
-	glm::mat4 view;
-	view = mainCam->GetViewMatrix();
-	glm::mat4 proj;
-	proj = mainCam->GetProjection();
-
 	//initialize material properties (textures and such) because each material has its own properties and textures to set
 	//"material, get ready to be drawn!"
-	mat->InitDraw(view, proj, objectTransform, mainCam, lights);
+	mat->InitDraw(objectTransform, mainCam, lights);
 
 	glBindVertexArray(lightVAO);
 

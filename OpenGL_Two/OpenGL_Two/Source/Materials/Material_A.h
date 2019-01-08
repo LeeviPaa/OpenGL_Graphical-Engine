@@ -21,7 +21,7 @@ public:
 	}
 
 
-	void InitDraw(glm::mat4 view, glm::mat4 projection, glm::mat4 model, Camera* drawCam, std::vector<Light*> lights) override {
+	void InitDraw(glm::mat4 model, Camera* drawCam, std::vector<Light*> lights) override {
 		shaderOne.use();
 
 		unsigned int diffuseNr = 1;
@@ -84,12 +84,6 @@ public:
 			}
 		}
 		shaderOne.setInt("pointLightCount", pointLights);
-		
-
-		//draw matrix variables
-		shaderOne.setMat4("view", view);
-
-		shaderOne.setMat4("projection", projection);
 
 		shaderOne.setMat4("model", model);
 

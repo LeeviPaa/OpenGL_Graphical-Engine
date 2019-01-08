@@ -51,15 +51,9 @@ void Mesh::Draw(Camera * mainCam, Material * mat, glm::mat4 objectTransform, std
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	//setup material properties
-	glm::mat4 view;
-	view = mainCam->GetViewMatrix();
-	glm::mat4 proj;
-	proj = mainCam->GetProjection();
-
 	//initialize material properties (textures and such) because each material has its own properties and textures to set
 	//"material, get ready to be drawn!"
-	mat->InitDraw(view, proj, objectTransform, mainCam, lights);
+	mat->InitDraw(objectTransform, mainCam, lights);
 
 	//draw the mesh
 	glBindVertexArray(VAO);

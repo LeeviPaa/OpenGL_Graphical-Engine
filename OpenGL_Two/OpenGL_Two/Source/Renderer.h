@@ -20,7 +20,7 @@ public:
 
 	Renderer(GLFWwindow* window);
 	unsigned int VAO;
-	void StartRendering();
+	void StartRendering(Camera* mainCamera);
 	void Render(GLFWwindow*, float deltaTime, Camera* mainCam, 
 		Drawable* objectToDraw, Material* mat, glm::mat4 objectTransform, std::vector<class Light*> lights);
 	void FinishRendering(GLFWwindow* window, Camera* mainCam);

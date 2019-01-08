@@ -32,7 +32,8 @@ protected:
 public:
 
 	virtual void Initialize() = 0;
-	virtual void InitDraw(glm::mat4 view, glm::mat4 projection, glm::mat4 model, class Camera* drawCam, std::vector<Light*> lights) = 0;
+	//the view and projection matrices are set in a uniform buffer object
+	virtual void InitDraw(glm::mat4 model, class Camera* drawCam, std::vector<Light*> lights) = 0;
 
 	//constructors
 	Material() {};

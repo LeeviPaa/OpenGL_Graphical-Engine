@@ -26,11 +26,13 @@ struct PointLight{
 
 out vec4 FragColor;
 
-#define MAX_POINT_LIGHTS 64
 uniform Material material;
+
+#define MAX_POINT_LIGHTS 64
 uniform DirLight dirLight;
 uniform PointLight pointLights[MAX_POINT_LIGHTS];
 uniform int pointLightCount;
+
 uniform int renderType = 0;
 
 //0 = opaque

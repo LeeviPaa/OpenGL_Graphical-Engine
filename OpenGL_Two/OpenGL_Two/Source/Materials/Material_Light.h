@@ -18,7 +18,7 @@ public:
 		shaderOne.use();
 
 	}
-	void InitDraw(glm::mat4 view, glm::mat4 projection, glm::mat4 model, Camera* drawCam, std::vector<Light*> lights) override {
+	void InitDraw(glm::mat4 model, Camera* drawCam, std::vector<Light*> lights) override {
 		shaderOne.use();
 
 		float time = glfwGetTime();
@@ -26,9 +26,6 @@ public:
 		shaderOne.setVec3("objectColor", lightColor);
 
 		//draw matrix variables
-		shaderOne.setMat4("view", view);
-
-		shaderOne.setMat4("projection", projection);
 
 		shaderOne.setMat4("model", model);
 

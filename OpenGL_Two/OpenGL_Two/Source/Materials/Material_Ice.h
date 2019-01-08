@@ -22,17 +22,13 @@ public:
 	}
 
 
-	void InitDraw(glm::mat4 view, glm::mat4 projection, glm::mat4 model, Camera* drawCam, std::vector<Light*> lights) override {
+	void InitDraw(glm::mat4 model, Camera* drawCam, std::vector<Light*> lights) override {
 		shaderOne.use();
 
 		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
 
 		//draw matrix variables
 		shaderOne.setVec3("camPos", drawCam->GetCamPos());
-
-		shaderOne.setMat4("view", view);
-
-		shaderOne.setMat4("projection", projection);
 
 		shaderOne.setMat4("model", model);
 	}
