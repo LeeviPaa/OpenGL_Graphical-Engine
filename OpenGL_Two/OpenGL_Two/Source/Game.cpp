@@ -11,19 +11,6 @@ static void input_callback(GLFWwindow* window, int key, int scancode, int action
 		return;
 	}
 
-	/*if (key == GLFW_KEY_KP_0 && action == GLFW_PRESS)
-	{
-		if (gate)
-		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		}
-		else
-		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		}
-		gate = !gate;
-	}*/
-
 	if (key == GLFW_KEY_TAB && action == GLFW_PRESS)
 	{
 		if(gate)
@@ -74,8 +61,8 @@ Game::Game(GLFWwindow* window)
 	materialIce.Initialize();
 
 	sceneLight = new Light(LightType::Directional,
-		glm::vec3(0.0f, 0.0f, 0.0f),
-		glm::vec3(0.0f, 0.0f, 0.0f),
+		glm::vec3(0.25f, 0.2f, 0.22f),
+		glm::vec3(0.25f, 0.2f, 0.22f),
 		glm::vec3(0.0f),
 		glm::vec3(-0.4f, -1.0f, -0.4f));
 	//add it to the list
@@ -145,10 +132,10 @@ void Game::Update()
 	//render stuff
 	mainRender->StartRendering(mainCamera, &sceneLights);
 
-	//NOTE:These bindings seem to work without us specifically having to declare
+	//NOTE:These bindings seem to work without us specifically having to declare to
 	//as is done in the following lines
+	#pragma region Uniform buffer material bindings
 
-	//Move these to the Renderer
 	//foreach (material that uses view matrices)
 	{
 		Shader* lit = materialLit.GetShader();
@@ -166,7 +153,6 @@ void Game::Update()
 		glUniformBlockBinding(light->ID, informBlockIndexLight, 0);
 	}
 
-	//Light bindings 
 	//foreach (lit material)
 	{
 		Shader* lit = materialLit.GetShader();
@@ -194,6 +180,7 @@ void Game::Update()
 		glUniformBlockBinding(ice->ID, informBlockIndexIce, 2);
 		glUniformBlockBinding(light->ID, informBlockIndexLight, 2);
 	}
+	#pragma endregion
 
 	// ----------------------------------------------------------------------------
 	// RENDER ORDER

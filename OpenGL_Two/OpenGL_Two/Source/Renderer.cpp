@@ -238,27 +238,30 @@ void Renderer::SetLightUniformBufferData(std::vector<Light*>* lights)
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
 	#pragma endregion
+
+	#pragma region point lights
+
+	unsigned int uboPointLights;
+	glGenBuffers(1, &uboPointLights);
+	glBindBuffer(GL_UNIFORM_BUFFER, uboPointLights);
+
+	glBufferData(GL_UNIFORM_BUFFER, 64 * sizeof(PointLightVariables), NULL, GL_DYNAMIC_DRAW);
+
+	glBindBufferBase(GL_UNIFORM_BUFFER, 2, uboPointLights);
+	//glBindBuffer(GL_UNIFORM_BUFFER, uboPointLights);
+
+	for (int i = 0; i < pointLights; i++)
 	{
-		unsigned int uboPointLights;
-		glGenBuffers(1, &uboPointLights);
-		glBindBuffer(GL_UNIFORM_BUFFER, uboPointLights);
+		//how big is it all in all?
 
-		glBufferData(GL_UNIFORM_BUFFER, 64 * sizeof(PointLightVariables), NULL, GL_DYNAMIC_DRAW);
+		//glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-		glBindBufferBase(GL_UNIFORM_BUFFER, 2, uboPointLights);
-		//glBindBuffer(GL_UNIFORM_BUFFER, uboPointLights);
+		//glBindBufferRange(GL_UNIFORM_BUFFER, 0, uboDirLights, 0, sizeof(DirectionalLightVariables));
 
-		for (int i = 0; i < pointLights; i++)
-		{
-			//how big is it all in all?
-
-			//glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
-			//glBindBufferRange(GL_UNIFORM_BUFFER, 0, uboDirLights, 0, sizeof(DirectionalLightVariables));
-
-			glBufferSubData(GL_UNIFORM_BUFFER, i * sizeof(PointLightVariables), sizeof(PointLightVariables), &pointLightData[i]);
-		}
-
-		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+		glBufferSubData(GL_UNIFORM_BUFFER, i * sizeof(PointLightVariables), sizeof(PointLightVariables), &pointLightData[i]);
 	}
+
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	
+	#pragma endregion
 }
